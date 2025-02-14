@@ -1,5 +1,9 @@
-package org.springai.flash;
+package org.springai.flash.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.springai.flash.service.QnAService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,17 +15,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/qa")
 public class AIController {
-     private final QnAService qnaService;
+
+    private final QnAService qnaService;
 
     public AIController(QnAService qnaService) {
         this.qnaService = qnaService;
     }
 
     @PostMapping("/ask")
-    public ResponseEntity<String> askQuestion(@RequestBody Map<String,String> payload)
+    public ResponseEntity<JsonNode> askQuestion(@RequestBody Map<String,String> payload)
     {
         String question = payload.get("question");
-        String answer = qnaService.getAnswer(question);
+        JsonNode answer = qnaService.getAnswer(question);
+
         return ResponseEntity.ok(answer);
+
     }
 }
