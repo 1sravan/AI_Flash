@@ -1,7 +1,7 @@
 package org.springai.flash.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springai.flash.service.OpenAiService;
 import org.springai.flash.service.QnAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,12 @@ import java.util.Map;
 @RequestMapping("/api/qa")
 public class AIController {
 
-    private final QnAService qnaService;
+    @Autowired
+    private QnAService qnaService;
 
-    public AIController(QnAService qnaService) {
-        this.qnaService = qnaService;
-    }
+    @Autowired
+    private OpenAiService openaiService;
+
 
     @PostMapping("/ask")
     public ResponseEntity<JsonNode> askQuestion(@RequestBody Map<String,String> payload)
@@ -31,4 +32,14 @@ public class AIController {
         return ResponseEntity.ok(answer);
 
     }
+
+    @PostMapping("/openask")
+    public ResponseEntity<JsonNode> askOpen(@RequestBody Map<String,String> payload)
+    {
+        String question = payload.get("question");
+        JsonNode answer = openaiService.getAnswer(question);
+
+        return ResponseEntity.ok(answer);
+    }
+
 }

@@ -1,6 +1,5 @@
 package org.springai.flash.exception;
 
-// Custom ApiException class to capture error information
 public class ApiException extends RuntimeException {
     private int httpStatusCode;
     private String errorCode;
