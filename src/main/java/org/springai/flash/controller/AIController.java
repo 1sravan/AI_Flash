@@ -22,7 +22,6 @@ public class AIController {
     @Autowired
     private OpenAiService openaiService;
 
-
     @PostMapping("/ask")
     public ResponseEntity<JsonNode> askQuestion(@RequestBody Map<String,String> payload)
     {
